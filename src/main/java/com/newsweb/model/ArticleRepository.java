@@ -14,14 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class ArticleRepository {
 
-	protected EntityManager entityManager;
-	
-
 	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-	
+	protected EntityManager entityManager;
+
+
 	public Article getById(Long id) {
 		return (Article) entityManager.find(Article.class, id);
 	}
@@ -61,8 +57,7 @@ public class ArticleRepository {
 		Article dao = (Article) entityManager.find(Article.class, id);
 		delete(dao);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public Collection<Article> getArticlesForCategories(List<String> categories,int currentPageNum, int elementsPerPage) {
 		Collection<Article> result = null;
 		int from = ((currentPageNum - 1) * elementsPerPage);

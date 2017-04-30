@@ -20,8 +20,8 @@ import com.newsweb.service.ArticleService;
  
 @RestController
 @RequestMapping(value="/api")
-public class NewsWebController {
-	private static final Logger logger = LoggerFactory.getLogger(NewsWebController.class);
+public class ArticleController {
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 	
 	@Autowired
 	private ArticleService articleService;

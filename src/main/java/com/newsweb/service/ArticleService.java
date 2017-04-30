@@ -22,33 +22,17 @@ import com.newsweb.utils.TitleUtils;
 @Service
 public class ArticleService {
 
-	Map<Long,Article> articles;
-	
-	@Autowired //provjeriti
+	@Autowired
 	private ArticleRepository articleRepository;
 	
 	public ArticleService() {
-		articles = new HashMap<>();
-        //Todo add test:
-		/*List<String> categories = new ArrayList<>();
-		categories.add("tech");
-		categories.add("science");
-		categories.add("web");
-		categories.add("startups");
-		Date date = new Date();
-		articles.put(Long.valueOf(1), new Article((long)1,"http://url1", "Title1","Article text1", "Summary1", categories, date));
-		articles.put(Long.valueOf(2), new Article((long)2,"http://url2", "Title2","Article text2", "Summary2", categories, date));*/
 	}
 	
 	public Collection<Article> list(int currentPageNum, int elementsPerPage) {
-		//mock data:
-		//return articles.values();
 		return articleRepository.list(currentPageNum, elementsPerPage);
 	}
 	
 	public Article get(Long id) {
-		//mock data:
-		//return articles.get(id);
 		return articleRepository.getById(id);
 	}
 	

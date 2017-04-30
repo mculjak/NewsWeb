@@ -1,0 +1,36 @@
+#label-default0 {
+	background-color: indianred
+}
+
+#label-default1 {
+	background-color: cadetblue
+}
+#label-default2 {
+	background-color: rosybrown
+}
+#label-default3 {
+	background-color: tan
+}
+
+.category-labels {
+	float: right;
+}
+
+.article-date {
+	float: right;
+}
+
+.full-article-link {
+	float: right;
+}
+
+.glyphicon-star {
+	
+}
+
+#article-title {
+	width: 100%;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}

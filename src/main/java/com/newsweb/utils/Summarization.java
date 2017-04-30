@@ -5,18 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public final class Summarization {
-	private static Set<String> fwords = loadFws("./workspace-sts/NewsWeb/src/main/resources/fwords.txt");
+	private static Set<String> fwords = loadFws("fwords.txt");
 
 	private Summarization() { }
 	
@@ -33,10 +26,11 @@ public final class Summarization {
 	 */
 	private static Set<String> loadFws(String fwPath) {		
 		try {
-			BufferedReader fileReader = new BufferedReader(new FileReader(fwPath));
+			File fw = new File(Summarization.class.getClassLoader().getResource(fwPath).getFile());
+			Scanner scanner = new Scanner(fw);
 			Set<String> fwords = new HashSet<String>();
-			while (true) {
-				String line = fileReader.readLine();
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
 				if (line == null)
 					break;
 				line = line.trim();
@@ -49,7 +43,7 @@ public final class Summarization {
 					fwords.add(line.toLowerCase());
 				}
 			}
-			fileReader.close();
+			scanner.close();
 			return fwords;
 		} catch (IOException e) {
 			// Bad config, kill all
