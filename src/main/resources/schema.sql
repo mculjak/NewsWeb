@@ -1,0 +1,1 @@
+create table if not exists crawl (url varchar, html text);

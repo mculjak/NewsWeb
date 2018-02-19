@@ -19,7 +19,7 @@ public class ArticleRepository {
 
 
 	public Article getById(Long id) {
-		return (Article) entityManager.find(Article.class, id);
+		return entityManager.find(Article.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public class ArticleRepository {
         return q.getResultList();
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional
 	public void save(Article dao) throws InvalidDataException {
 		if (dao == null) throw new InvalidDataException("Trying to save null object!");
 		try {
@@ -45,16 +45,16 @@ public class ArticleRepository {
 		}
 	}
 	
-	@Transactional(readOnly=false)
+	@Transactional
 	public void delete(Article daoObject) throws InvalidDataException {
 		if (daoObject == null) throw new InvalidDataException("Trying to delete null object!");
 		entityManager.remove(daoObject);
 	}
 	
-	@Transactional(readOnly=false)
+	@Transactional
 	public void delete(Long id) throws InvalidDataException {
 		if (id == null) throw new InvalidDataException("Trying to delete object with null ID!");
-		Article dao = (Article) entityManager.find(Article.class, id);
+		Article dao = entityManager.find(Article.class, id);
 		delete(dao);
 	}
 

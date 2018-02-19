@@ -29,12 +29,11 @@ public class Article {
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
 	@Column(name="html", nullable=false)
-//	@JsonIgnore //TODO?
 	private String html;
 	
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
-	@Column(name="text")
+	@Column(name="text", columnDefinition = "TEXT")
 	private String text;
 	
 	@Column(name="summary", length=2048)
