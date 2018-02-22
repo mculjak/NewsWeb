@@ -1,9 +1,8 @@
 package com.newsweb.api;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+import com.newsweb.utils.Classifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +18,20 @@ import com.newsweb.model.InvalidDataException;
 import com.newsweb.service.ArticleService;
  
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value="/api/articles")
 public class ArticleController {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 	
 	@Autowired
 	private ArticleService articleService;
 	
-	@RequestMapping(value = "/articles/{id:.+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id:.+}", method = RequestMethod.GET)
 	public Article getArticle(@PathVariable("id") Long id) {
 		logger.debug("get() - id {}", id);
 		return articleService.get(id);
 	}
 	
-	@RequestMapping(value = "/articles", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public Collection<Article> listArticles(@RequestParam(value="categories", required=false) String[] categories,
 			@RequestParam(value="page",required=false) Integer page,
 			@RequestParam(value="size",required=false) Integer size) {
@@ -50,20 +49,32 @@ public class ArticleController {
         }
     }
 	
-	@RequestMapping(value = "/articles", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public void save(@RequestBody Article article) throws InvalidDataException {
 		if (article.getId() == null) {
 			throw new InvalidDataException("Can't save transient object!");
 		}
 		articleService.save(article);
 	}
+
+	@RequestMapping(value = "/{id:.+}/classify", method = RequestMethod.POST)
+	public void save(@PathVariable("id") Long id) throws InvalidDataException {
+		Article article = articleService.get(id);
+		if (article == null) {
+			throw new InvalidDataException("There is no article with that id!");
+		}
+		List<String> newCategories = new ArrayList<>();
+		newCategories.add(Classifier.classify(article.getText()));
+		article.setCategories(newCategories);
+		articleService.save(article);
+	}
 	
-	@RequestMapping(value = "/articles/{id:.+}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id:.+}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") Long id) throws InvalidDataException {
 		articleService.delete(id);
 	}
 
-	@RequestMapping(value = "/articles", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public boolean create(@RequestBody Article article) throws InvalidDataException {
 		if (article.getUrl() == null || article.getHtml() == null) {
 			throw new InvalidDataException("Article must have URL and HTML!");

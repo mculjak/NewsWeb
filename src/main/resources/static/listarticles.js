@@ -50,6 +50,7 @@ $(document).ready(function() {
     		var headingCollapse = $('<a>', {"data-toggle": "collapse", "data-parent": "#articles", href: "#collapse"+i});
     		var glyph = $('<span>', {class: "glyphicon glyphicon-star"});
     		heading.append(glyph);
+			headingCollapse.append(" " + article.id + " ");
     		headingCollapse.append(" "+article.title);
     		heading.append(headingCollapse);
 

@@ -43,6 +43,7 @@ public class Article {
 	private Date date;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name = "article_categories", joinColumns = @JoinColumn(name = "article_id"))
 	private List<String> categories;
 
 	public Article() {}

@@ -15,8 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleRepository {
 
 	@PersistenceContext
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 
+	@SuppressWarnings("unchecked")
+	public List<Article> findAll() {
+		return entityManager.createQuery("select a from Article a").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Article> findAllCategorized() {
+		return entityManager.createQuery("select a from Article as a JOIN a.categories categories").getResultList();
+	}
 
 	public Article getById(Long id) {
 		return entityManager.find(Article.class, id);

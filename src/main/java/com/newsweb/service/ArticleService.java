@@ -1,23 +1,15 @@
 package com.newsweb.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.newsweb.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newsweb.model.Article;
 import com.newsweb.model.ArticleRepository;
 import com.newsweb.model.InvalidDataException;
-import com.newsweb.utils.ContentExtractor;
-import com.newsweb.utils.Downloader;
-import com.newsweb.utils.Summarization;
-import com.newsweb.utils.TitleUtils;
 
 @Service
 public class ArticleService {
@@ -25,7 +17,12 @@ public class ArticleService {
 	@Autowired
 	private ArticleRepository articleRepository;
 	
-	public ArticleService() {
+	public List<Article> findAll() {
+		return articleRepository.findAll();
+	}
+
+	public List<Article> findAllCategorized() {
+		return articleRepository.findAllCategorized();
 	}
 	
 	public Collection<Article> list(int currentPageNum, int elementsPerPage) {
@@ -64,13 +61,20 @@ public class ArticleService {
 		a.setHtml(html);
 		a.setUrl(url);
 		a.setDate(new Date());
-		a.setTitle(TitleUtils.getPageTitle(html));
+		String title = TitleUtils.getPageTitle(html);
+		if (title == null || title.length() == 0) {
+			title = "[missing title]";
+		}
+		a.setTitle(title);
 		String content = ContentExtractor.extractContent(html);
-		if (content == null) {
+		if (content == null || content.isEmpty()) {
 			return false;
 		}
 		a.setText(content);
 		a.setSummary(Summarization.summarize(content));
+		List<String> newCategories = new ArrayList<>();
+		newCategories.add(Classifier.classify(a.getText()));
+		a.setCategories(newCategories);
 		
 		try {
 			save(a);
