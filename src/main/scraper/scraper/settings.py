@@ -10,6 +10,7 @@ SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 DEFAULT_ITEM_CLASS = 'scraper.items.NewswebItem'
 DOWNLOAD_DELAY = 0.75
+ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
         'scraper.pipelines.NewswebPipeline': 100,
 }

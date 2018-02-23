@@ -72,9 +72,9 @@ public class ArticleService {
 		}
 		a.setText(content);
 		a.setSummary(Summarization.summarize(content));
-		List<String> newCategories = new ArrayList<>();
-		newCategories.add(Classifier.classify(a.getText()));
-		a.setCategories(newCategories);
+		//List<String> newCategories = new ArrayList<>();
+		//newCategories.add(Classifier.classify(a.getText()));
+		//a.setCategories(newCategories);
 		
 		try {
 			save(a);

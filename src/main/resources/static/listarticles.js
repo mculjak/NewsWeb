@@ -66,13 +66,33 @@ $(document).ready(function() {
     			label.append(category);
     			labels.append(label);
     		});
+
+
+			/*var inputForm = $('<form>');
+			var divInput =  $('<div>', {class: "input-group"});
+			var spanInput = $('<span>', {class: "input-group-addon"});
+			spanInput.append("Text");
+			divInput.append(spanInput);
+			var input =  $('<input>', {class: "form-control", type: "text"});
+			divInput.append(input);
+
+
+			var divButton = $('<div>', {class: "input-group-btn"});
+			var saveCategoryButton = $('<button>', {class: "btn btn-default", type: "submit"});
+			saveCategoryButton.append("Save");
+			divButton.append(saveCategoryButton);
+			divInput.append(divButton);
+
+			inputForm.append(divInput);
+			heading.append(inputForm);*/
+
     		heading.append(labels);
     		
 
     		var collapse = $('<div>', {id: "collapse"+i, class: "panel-collapse collapse"});
     		var body = $('<div>', {class: "panel-body"});
     		var summary = $('<div>');
-    		summary.append(article.summary)
+    		summary.append(article.summary);
     		body.append(summary);
     		
     		var linkToFull = $('<div>', {class: "full-article-link"});
@@ -80,6 +100,13 @@ $(document).ready(function() {
     		link.append("Full article");
     		linkToFull.append(link);
     		body.append(linkToFull);
+
+            var linkToOriginal = $('<div>', {class: "original-article-link"});
+            var linkOrig = $('<a>', {href: article.url});
+            linkOrig.append("Link to original article");
+            linkToOriginal.append(linkOrig);
+            body.append(linkToOriginal);
+
     		collapse.append(body);
     		articles.append(panel);
     		articles.append(collapse);
